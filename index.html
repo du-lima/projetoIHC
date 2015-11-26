@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="UTF-8">
+        <title>Space Invaders</title>
+		<script src="js/starfield.js"></script>
+        <script src="js/spaceinvaders.js"></script>
+        <script src="js/compatibility.js"></script>
+        <script src="js/objectdetect.js"></script>
+        <script src="js/objectdetect.handfist.js"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/modal.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/core.css">
+        <link rel="stylesheet" type="text/css" href="css/typeography.css">
+		<!-- You can use Open Graph tags to customize link previews.
+		Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+		<meta property="og:url"           content="http://www.google.com" />
+		<meta property="og:type"          content="website" />
+		<meta property="og:title"         content="Your Website Title" />
+		<meta property="og:description"   content="Your description" />
+		<meta property="og:image"         content="http://www.google.com" />
+        <style>
+    
+            /* Styling needed for a fullscreen canvas and no scrollbars. */
+            body, html { 
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            }
+			
+			#content{
+				padding: 0;
+				margin:0;
+				top: 0%;
+				right:0%;
+			}
+            #starfield {
+                width:100%;
+                height:100%;
+                z-index: -1;
+                position: absolute;
+                left: 0px;
+                top: 0px;
+            }
+            #gamecontainer {
+                width: 800px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #gamecanvas { 
+                width: 800px;
+                height: 600px;
+            }
+            #info {
+                width: 800px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
+    </head>
+    <body onLoad="autoplay();">
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.5";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+		<div id="starfield">
+			<div id="content" style="position: fixed; z-index: 1001; top: 10px; right: 10px; opacity: 0.9">
+				
+			</div>
+		</div>
+		
+        <div id="gamecontainer">
+        <canvas id="gameCanvas"></canvas>
+        </div>
+		<center><div id="botao" style="position:relative;bottom:200px;align:center;"></div></center>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Compartilhe no Facebook!</h4>
+      </div>
+      <div class="modal-body">
+        <p><center><a href="#" onclick="window.open('https://www.facebook.com', 'Pagina', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=770, HEIGHT=400');"><img src="img/share.png"></a></center></p>
+		</div>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+
+  </div>
+<script>
+
+            //  Create the starfield.
+            var container = document.getElementById('starfield');
+            var starfield = new Starfield();
+            starfield.initialise(container);
+            starfield.start();
+
+            //  Setup the canvas.
+            var canvas = document.getElementById("gameCanvas");
+            canvas.width = 800;
+            canvas.height = 600;
+
+            //  Create the game.
+            var game = new Game();
+
+            //  Initialise it with the game canvas.
+            game.initialise(canvas);
+
+            //  Start the game.
+            game.start();
+
+            //  Listen for keyboard events.
+            window.addEventListener("keydown", function keydown(e) {
+                var keycode = e.which || window.event.keycode;
+                //  Supress further processing of left/right/space (37/29/32)
+                if(keycode == 37 || keycode == 39 || keycode == 32) {
+                    e.preventDefault();
+                }
+                game.keyDown(keycode);
+            });
+            window.addEventListener("keyup", function keydown(e) {
+                var keycode = e.which || window.event.keycode;
+                game.keyUp(keycode);
+            });
+
+            function toggleMute() {
+                game.mute();
+                document.getElementById("muteLink").innerText = game.sounds.mute ? "unmute" : "mute";
+            }
+        </script>
+        <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-41728580-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+    </body>
+</html>
