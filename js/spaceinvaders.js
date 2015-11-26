@@ -358,16 +358,6 @@ PlayState.prototype.update = function(game, dt) {
         this.fireRocket();
 		atirar = false;
     }
-	
-	if(this.countdown === undefined) {
-        this.countdown = 3; // countdown from 3 secs
-    }
-    this.countdown -= dt;
-
-    if(this.countdown <= 0 && atirar) {
-        //  Move to the next level, popping this state.
-        this.fireRocket();
-    }
 
     //  Keep the ship in bounds.
     if(this.ship.x < game.gameBounds.left) {
